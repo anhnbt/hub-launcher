@@ -7,6 +7,7 @@ export interface Settings {
   viewMode: 'grid' | 'list'
   healthCheckInterval: number // minutes
   enableNotifications?: boolean
+  openAtLogin?: boolean
 }
 
 export interface Group {

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAppStore } from '../store/useAppStore'
-import { X, Moon, Sun, LayoutGrid, List, FolderUp, Link, Bell } from 'lucide-react'
+import { X, Moon, Sun, LayoutGrid, List, FolderUp, Link, Bell, Rocket } from 'lucide-react'
 
 interface SettingsPanelProps {
   isOpen: boolean
@@ -233,6 +233,31 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
             </div>
             <p className="text-xs text-text-muted mt-2">
               Khoảng thời gian ping các dịch vụ đã bật kiểm tra sức khỏe (1–60 phút)
+            </p>
+          </div>
+
+          {/* Open at Login Toggle */}
+          <div>
+            <label className="text-xs font-medium text-text-secondary mb-2.5 block">
+              Khởi động cùng máy tính
+            </label>
+            <div className="flex items-center gap-3">
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={settings.openAtLogin || false}
+                  onChange={(e) => updateSettings({ openAtLogin: e.target.checked })}
+                />
+                <div className="w-11 h-6 bg-surface-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent border border-border"></div>
+              </label>
+              <div className="flex items-center gap-1.5 text-sm text-text-primary">
+                <Rocket className="w-4 h-4 text-accent" />
+                <span>{settings.openAtLogin ? 'Đang bật' : 'Đang tắt'}</span>
+              </div>
+            </div>
+            <p className="text-xs text-text-muted mt-2">
+              Tự động mở WanBi Hub Launcher ngầm khi bạn bật máy
             </p>
           </div>
 

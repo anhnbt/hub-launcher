@@ -13,7 +13,8 @@ const DEFAULT_DATA: DatabaseSchema = {
     backgroundValue: '#0f0f23',
     viewMode: 'grid',
     healthCheckInterval: 5,
-    enableNotifications: true
+    enableNotifications: true,
+    openAtLogin: false
   },
   groups: [
     { id: 'g-work', name: 'Công việc', order: 0 },

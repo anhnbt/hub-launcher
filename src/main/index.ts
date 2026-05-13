@@ -5,6 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import { registerIpcHandlers } from './ipc-handlers'
 import { createTray } from './tray'
 import { startPingService, restartPingService, stopPingService } from './ping-service'
+import { getSettings } from './database'
 import { IPC_CHANNELS } from '../shared/types'
 
 let mainWindow: BrowserWindow | null = null
@@ -70,6 +71,13 @@ app.whenReady().then(() => {
 
   // Register IPC handlers
   registerIpcHandlers()
+
+  // Sync login item settings
+  const settings = getSettings()
+  app.setLoginItemSettings({
+    openAtLogin: settings.openAtLogin || false,
+    openAsHidden: true
+  })
 
   // Handle health check restart when settings change
   ipcMain.handle(IPC_CHANNELS.TRIGGER_HEALTH_CHECK, () => {
