@@ -32,3 +32,17 @@ $ npm run build:mac
 # Cho Linux
 $ npm run build:linux
 ```
+
+## Quy trình Phát hành (Release)
+
+Dự án sử dụng GitHub Actions để tự động build và publish release khi có một Tag phiên bản mới được đẩy lên (ví dụ: `v1.1.0`).
+Để tạo tag mới và tự động kích hoạt tiến trình Release, hãy chạy các lệnh sau:
+
+```bash
+# Nâng cấp phiên bản trong package.json và tạo tag mới (ví dụ: patch, minor, major, hoặc version cụ thể)
+$ npm version minor -m "chore: release v%s"
+
+# Push nhánh main kèm theo tag lên GitHub
+$ git push origin main --tags
+```
+Sau khi push, GitHub Actions sẽ tiến hành build tự động và publish release trực tiếp mà không cần qua trạng thái Draft.
