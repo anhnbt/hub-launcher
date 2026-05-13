@@ -12,7 +12,8 @@ const DEFAULT_DATA: DatabaseSchema = {
     backgroundType: 'color',
     backgroundValue: '#0f0f23',
     viewMode: 'grid',
-    healthCheckInterval: 5
+    healthCheckInterval: 5,
+    enableNotifications: true
   },
   groups: [
     { id: 'g-work', name: 'Công việc', order: 0 },

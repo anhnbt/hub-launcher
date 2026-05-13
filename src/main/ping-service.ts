@@ -34,6 +34,7 @@ async function checkServiceHealth(url: string): Promise<boolean> {
 
 async function runHealthChecks(): Promise<void> {
   const services = getHealthCheckServices()
+  const settings = getSettings()
 
   for (const service of services) {
     const endpoint = service.healthEndpoint || service.target
@@ -53,22 +54,24 @@ async function runHealthChecks(): Promise<void> {
       })
     }
 
-    // Show notification only when status changes to offline
-    if (newStatus === 'offline' && previousStatus !== 'offline') {
-      new Notification({
-        title: '⚠️ Service Down',
-        body: `${service.name} is not responding!\n${endpoint}`,
-        urgency: 'critical'
-      }).show()
-    }
+    if (settings.enableNotifications !== false) {
+      // Show notification only when status changes to offline
+      if (newStatus === 'offline' && previousStatus !== 'offline') {
+        new Notification({
+          title: '🥺 Ôi hỏng! Mất kết nối rồi',
+          body: `Hiện không thể kết nối tới ${service.name}. Bạn kiểm tra lại xem dịch vụ có đang chạy tại:\n${endpoint} không nhé!`,
+          urgency: 'critical'
+        }).show()
+      }
 
-    // Show recovery notification
-    if (newStatus === 'online' && previousStatus === 'offline') {
-      new Notification({
-        title: '✅ Service Recovered',
-        body: `${service.name} is back online.`,
-        urgency: 'normal'
-      }).show()
+      // Show recovery notification
+      if (newStatus === 'online' && previousStatus === 'offline') {
+        new Notification({
+          title: '🎉 Tuyệt vời! Dịch vụ đã sống lại',
+          body: `Tin vui đây! ${service.name} đã kết nối lại thành công và đang hoạt động bình thường.`,
+          urgency: 'normal'
+        }).show()
+      }
     }
   }
 }

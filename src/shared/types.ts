@@ -6,6 +6,7 @@ export interface Settings {
   backgroundValue: string
   viewMode: 'grid' | 'list'
   healthCheckInterval: number // minutes
+  enableNotifications?: boolean
 }
 
 export interface Group {
@@ -59,5 +60,8 @@ export const IPC_CHANNELS = {
   TRIGGER_HEALTH_CHECK: 'action:trigger-health-check',
 
   // Health status updates (main -> renderer)
-  HEALTH_STATUS_UPDATE: 'health:status-update'
+  HEALTH_STATUS_UPDATE: 'health:status-update',
+
+  // Notifications
+  TEST_NOTIFICATION: 'action:test-notification'
 } as const

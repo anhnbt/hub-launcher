@@ -98,7 +98,7 @@ export function Toolbar({
       {/* Title */}
       <div className="flex items-center gap-2 shrink-0">
         <Rocket className="w-5 h-5 text-accent" />
-        <span className="text-base font-semibold text-text-primary">Hub Launcher</span>
+        <span className="text-base font-semibold text-text-primary">WanBi Hub Launcher</span>
       </div>
 
       {/* Search */}

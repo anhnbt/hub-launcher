@@ -9,7 +9,7 @@ export function createTray(mainWindow: BrowserWindow): Tray {
   const trayIcon = nativeImage.createFromPath(iconPath).resize({ width: 18, height: 18 })
 
   tray = new Tray(trayIcon)
-  tray.setToolTip('Hub Launcher')
+  tray.setToolTip('WanBi Hub Launcher')
 
   const contextMenu = Menu.buildFromTemplate([
     {

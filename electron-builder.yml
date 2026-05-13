@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: hub-launcher
+productName: WanBi Hub Launcher
 directories:
   buildResources: build
 files:

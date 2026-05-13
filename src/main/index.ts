@@ -32,7 +32,9 @@ function createWindow(): void {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow!.show()
-    mainWindow!.webContents.openDevTools()
+    if (is.dev) {
+      mainWindow!.webContents.openDevTools()
+    }
   })
 
   // Minimize to tray instead of closing
@@ -59,6 +61,7 @@ function createWindow(): void {
 app.commandLine.appendSwitch('remote-debugging-port', '9222')
 
 app.whenReady().then(() => {
+  app.setName('WanBi Hub Launcher')
   electronApp.setAppUserModelId('com.hub-launcher')
 
   app.on('browser-window-created', (_, window) => {

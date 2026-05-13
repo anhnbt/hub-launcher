@@ -1,4 +1,4 @@
-import { ipcMain, shell } from 'electron'
+import { ipcMain, shell, Notification } from 'electron'
 import { exec } from 'child_process'
 import { IPC_CHANNELS } from '../shared/types'
 import type { Group, Service, Settings } from '../shared/types'
@@ -57,6 +57,16 @@ export function registerIpcHandlers(): void {
 
   ipcMain.handle(IPC_CHANNELS.DELETE_SERVICE, (_, id: string) => {
     return deleteService(id)
+  })
+
+  // ── Notifications ─────────────────────────────────
+  ipcMain.handle(IPC_CHANNELS.TEST_NOTIFICATION, () => {
+    if (Notification.isSupported()) {
+      new Notification({
+        title: 'WanBi Hub Launcher',
+        body: 'Đây là thông báo thử nghiệm! Bạn đã cấp quyền thành công 🎉'
+      }).show()
+    }
   })
 
   // ── Launch Service ────────────────────────────────
