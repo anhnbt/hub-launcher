@@ -63,8 +63,8 @@ function createWindow(): void {
 app.commandLine.appendSwitch('remote-debugging-port', '9222')
 
 app.whenReady().then(() => {
+  electronApp.setAppUserModelId('com.anhnbt.launcher')
   app.setName('WanBi Hub Launcher')
-  electronApp.setAppUserModelId('com.hub-launcher')
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)

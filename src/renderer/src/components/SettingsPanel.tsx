@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAppStore } from '../store/useAppStore'
 import { X, Moon, Sun, LayoutGrid, List, FolderUp, Link, Bell, Rocket, RefreshCw } from 'lucide-react'
 
@@ -29,6 +29,11 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const settings = useAppStore((s) => s.settings)
   const updateSettings = useAppStore((s) => s.updateSettings)
   const [bgImageUrl, setBgImageUrl] = useState('')
+  const [version, setVersion] = useState('...')
+
+  useEffect(() => {
+    window.api?.getAppVersion?.().then(setVersion)
+  }, [])
 
   if (!isOpen) return null
 
@@ -163,7 +168,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   alt="Background preview"
                   className="w-full h-24 object-cover"
                   onError={(e) => {
-                    ;(e.target as HTMLImageElement).style.display = 'none'
+                    (e.target as HTMLImageElement).style.display = 'none';
                   }}
                 />
                 <button
@@ -283,27 +288,9 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
               <button
                 type="button"
                 onClick={() => {
-                  if ('Notification' in window) {
-                    if (Notification.permission === 'granted') {
-                      new window.Notification('WanBi Hub Launcher', {
-                        body: 'Đây là thông báo thử nghiệm! Bạn đã cấp quyền thành công 🎉'
-                      })
-                    } else {
-                      Notification.requestPermission().then(permission => {
-                        if (permission === 'granted') {
-                          new window.Notification('WanBi Hub Launcher', {
-                            body: 'Đây là thông báo thử nghiệm! Bạn đã cấp quyền thành công 🎉'
-                          })
-                        } else {
-                          alert('macOS đang chặn thông báo! Bạn vui lòng vào System Settings > Notifications > Bật cho ứng dụng này nhé.')
-                        }
-                      })
-                    }
-                  } else {
-                    alert('Hệ thống không hỗ trợ thông báo.')
-                  }
+                  window.api?.testNotification?.()
                 }}
-                className="ml-auto text-xs px-3 py-1.5 rounded-lg bg-surface-2 text-text-secondary border border-border hover:border-accent hover:text-accent transition-colors"
+                className="ml-auto text-xs px-3 py-1.5 rounded-lg bg-surface-2 text-text-secondary border border-border hover:border-accent hover:text-white hover:bg-accent transition-colors"
                 title="Gửi một thông báo thử nghiệm"
               >
                 Gửi thử
@@ -325,14 +312,17 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   <RefreshCw className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-text-primary">WanBi Hub Launcher</div>
+                  <div className="text-sm font-medium text-text-primary flex items-center gap-2">
+                    WanBi Hub Launcher
+                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-surface-3 text-text-muted border border-border font-mono">v{version}</span>
+                  </div>
                   <div className="text-xs text-text-muted">Kiểm tra phiên bản mới nhất</div>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => {
-                  window.api?.checkForUpdate?.()
+                  window.api?.checkForUpdate?.(true)
                   onClose() // Close settings to see the banner
                 }}
                 className="text-xs px-4 py-2 rounded-lg bg-accent text-white hover:bg-accent-hover transition-colors shadow-sm"

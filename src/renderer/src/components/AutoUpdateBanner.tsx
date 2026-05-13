@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { DownloadCloud, RefreshCw, X, AlertCircle } from 'lucide-react'
+import { DownloadCloud, RefreshCw, X, AlertCircle, Check } from 'lucide-react'
 
 export function AutoUpdateBanner() {
   const [status, setStatus] = useState<string>('')
@@ -8,17 +8,26 @@ export function AutoUpdateBanner() {
   const [visible, setVisible] = useState<boolean>(false)
 
   useEffect(() => {
+    console.log('DEBUG: AutoUpdateBanner mounted')
     // Check for updates on startup
     window.api.checkForUpdate?.()
 
     const cleanup = window.api.onUpdateStatus?.((update) => {
+      console.log('Update Status Received:', update.status, update.data)
       setStatus(update.status)
+      const isManual = update.data?.manual
+
       if (update.status === 'checking') {
-        setVisible(true)
+        if (isManual) setVisible(true)
       } else if (update.status === 'available') {
         setVisible(true)
       } else if (update.status === 'not-available') {
-        setTimeout(() => setVisible(false), 3000) // hide after 3 seconds if checking from startup
+        if (isManual) {
+          setVisible(true)
+          setTimeout(() => setVisible(false), 3000)
+        } else {
+          setVisible(false)
+        }
       } else if (update.status === 'downloading') {
         setVisible(true)
         if (update.data && update.data.percent) {
@@ -28,7 +37,10 @@ export function AutoUpdateBanner() {
         setVisible(true)
       } else if (update.status === 'error') {
         setVisible(true)
-        setErrorMsg(update.data || 'Unknown error occurred')
+        setErrorMsg(update.data?.message || update.data || 'Unknown error occurred')
+      } else if (update.status === 'test-success') {
+        setVisible(true)
+        setTimeout(() => setVisible(false), 3000)
       }
     })
 
@@ -46,7 +58,7 @@ export function AutoUpdateBanner() {
   }
 
   return (
-    <div className="bg-surface-2 border-b border-border p-3 flex items-center justify-between text-sm animate-fade-in">
+    <div className="fixed top-0 left-0 right-0 z-[100] bg-surface-2 border-b border-border p-3 flex items-center justify-between text-sm animate-fade-in shadow-xl">
       <div className="flex items-center gap-3">
         {status === 'checking' && (
           <>
@@ -54,7 +66,7 @@ export function AutoUpdateBanner() {
             <span className="text-text-primary">Đang kiểm tra cập nhật...</span>
           </>
         )}
-        
+
         {status === 'not-available' && (
           <span className="text-text-secondary">Bạn đang dùng phiên bản mới nhất.</span>
         )}
@@ -63,7 +75,7 @@ export function AutoUpdateBanner() {
           <>
             <DownloadCloud className="w-4 h-4 text-accent animate-pulse" />
             <span className="text-text-primary">Có bản cập nhật mới!</span>
-            <button 
+            <button
               onClick={handleDownload}
               className="ml-2 px-3 py-1 bg-accent text-white rounded-md text-xs hover:bg-accent-hover transition-colors"
             >
@@ -77,7 +89,7 @@ export function AutoUpdateBanner() {
             <RefreshCw className="w-4 h-4 text-accent animate-spin" />
             <span className="text-text-primary">Đang tải xuống bản cập nhật... {progress}%</span>
             <div className="w-24 h-1.5 bg-surface-3 rounded-full overflow-hidden ml-2">
-              <div 
+              <div
                 className="h-full bg-accent transition-all duration-300"
                 style={{ width: `${progress}%` }}
               />
@@ -89,9 +101,9 @@ export function AutoUpdateBanner() {
           <>
             <DownloadCloud className="w-4 h-4 text-green-500" />
             <span className="text-text-primary text-green-500 font-medium">Đã tải xong bản cập nhật!</span>
-            <button 
+            <button
               onClick={handleInstall}
-              className="ml-2 px-3 py-1 bg-green-500 text-white rounded-md text-xs hover:bg-green-600 transition-colors shadow-sm"
+              className="ml-2 px-3 py-1 bg-online text-white rounded-md text-xs hover:bg-online-hover transition-colors shadow-sm"
             >
               Khởi động lại & Cài đặt
             </button>
@@ -104,9 +116,16 @@ export function AutoUpdateBanner() {
             <span className="text-red-500">Lỗi cập nhật: {errorMsg}</span>
           </>
         )}
+
+        {status === 'test-success' && (
+          <>
+            <Check className="w-4 h-4 text-green-500" />
+            <span className="text-text-primary">Đã gửi thông báo thử nghiệm thành công!</span>
+          </>
+        )}
       </div>
 
-      <button 
+      <button
         onClick={() => setVisible(false)}
         className="p-1 rounded-md hover:bg-surface-3 text-text-muted hover:text-text-primary transition-colors"
       >

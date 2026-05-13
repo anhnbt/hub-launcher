@@ -48,11 +48,19 @@ export function setupAutoUpdater(mainWindow: BrowserWindow): void {
   })
 
   // IPC handlers
-  ipcMain.handle(IPC_CHANNELS.CHECK_FOR_UPDATE, async () => {
+  ipcMain.handle(IPC_CHANNELS.CHECK_FOR_UPDATE, async (_event, manual: boolean = false) => {
     if (is.dev) {
-      sendStatus('not-available')
+      sendStatus('checking', { manual })
+      // Simulate delay for checking
+      setTimeout(() => {
+        sendStatus('not-available', { manual })
+      }, 1000)
       return
     }
+    
+    // For production, we can listen once to the next event to attach the manual flag
+    // or just send it with checking immediately.
+    sendStatus('checking', { manual })
     return autoUpdater.checkForUpdates()
   })
 

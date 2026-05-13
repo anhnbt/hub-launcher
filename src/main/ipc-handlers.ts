@@ -1,4 +1,5 @@
-import { ipcMain, shell, Notification, app } from 'electron'
+import { ipcMain, shell, Notification, app, BrowserWindow } from 'electron'
+import { join } from 'path'
 import { exec } from 'child_process'
 import { IPC_CHANNELS } from '../shared/types'
 import type { Group, Service, Settings } from '../shared/types'
@@ -71,11 +72,21 @@ export function registerIpcHandlers(): void {
 
   // ── Notifications ─────────────────────────────────
   ipcMain.handle(IPC_CHANNELS.TEST_NOTIFICATION, () => {
+    console.log('Test Notification Request Received. Supported:', Notification.isSupported())
     if (Notification.isSupported()) {
       new Notification({
         title: 'WanBi Hub Launcher',
-        body: 'Đây là thông báo thử nghiệm! Bạn đã cấp quyền thành công 🎉'
+        body: 'Đây là thông báo thử nghiệm! Bạn đã cấp quyền thành công 🎉',
+        icon: join(__dirname, '../../resources/icon.png')
       }).show()
+    } else {
+      console.error('Notifications are not supported on this platform/configuration.')
+    }
+
+    // Fallback: Also show success feedback in the app UI banner
+    const allWindows = BrowserWindow.getAllWindows()
+    if (allWindows.length > 0) {
+      allWindows[0].webContents.send(IPC_CHANNELS.UPDATE_STATUS, { status: 'test-success' })
     }
   })
 
@@ -90,5 +101,10 @@ export function registerIpcHandlers(): void {
         }
       })
     }
+  })
+
+  // ── App Info ──────────────────────────────────────
+  ipcMain.handle(IPC_CHANNELS.GET_APP_VERSION, () => {
+    return app.getVersion()
   })
 }

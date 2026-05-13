@@ -70,5 +70,7 @@ export const IPC_CHANNELS = {
   CHECK_FOR_UPDATE: 'updater:check',
   DOWNLOAD_UPDATE: 'updater:download',
   QUIT_AND_INSTALL: 'updater:quit-and-install',
-  UPDATE_STATUS: 'updater:status'
+  UPDATE_STATUS: 'updater:status',
+  // App Info
+  GET_APP_VERSION: 'app:get-version'
 } as const

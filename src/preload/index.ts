@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 import { IPC_CHANNELS } from '../shared/types'
 import type { Settings, Group, Service } from '../shared/types'
 
-console.log(">>> PRELOAD SCRIPT EXECUTING <<<")
+console.log(">>> PRELOAD SCRIPT EXECUTING v2 (with testNotification) <<<")
 
 const api = {
   // Settings
@@ -31,6 +31,8 @@ const api = {
     ipcRenderer.invoke(IPC_CHANNELS.LAUNCH_SERVICE, service),
   triggerHealthCheck: (): Promise<void> =>
     ipcRenderer.invoke(IPC_CHANNELS.TRIGGER_HEALTH_CHECK),
+  testNotification: (): Promise<void> =>
+    ipcRenderer.invoke(IPC_CHANNELS.TEST_NOTIFICATION),
 
   // Listen for health status updates from main process
   onHealthStatusUpdate: (
@@ -46,7 +48,7 @@ const api = {
   },
 
   // Auto Updater
-  checkForUpdate: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.CHECK_FOR_UPDATE),
+  checkForUpdate: (manual: boolean = false): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.CHECK_FOR_UPDATE, manual),
   downloadUpdate: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.DOWNLOAD_UPDATE),
   quitAndInstall: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.QUIT_AND_INSTALL),
   onUpdateStatus: (callback: (data: { status: string; data?: any }) => void): (() => void) => {
@@ -57,7 +59,8 @@ const api = {
     return () => {
       ipcRenderer.removeListener(IPC_CHANNELS.UPDATE_STATUS, handler)
     }
-  }
+  },
+  getAppVersion: (): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.GET_APP_VERSION)
 }
 
 export type ApiType = typeof api
