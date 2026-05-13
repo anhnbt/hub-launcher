@@ -1,34 +1,34 @@
 # WanBi Hub Launcher
 
-A specialized desktop application built with Electron, React, and TypeScript. It features a modern interface, background service management, startup on login support, and native macOS notifications.
+Một ứng dụng desktop chuyên dụng được xây dựng bằng Electron, React và TypeScript. Ứng dụng cung cấp giao diện hiện đại, quản lý các dịch vụ chạy ngầm, hỗ trợ khởi động cùng hệ thống (open at login) và thông báo (notifications) native trên macOS.
 
-## Recommended IDE Setup
+## Môi trường phát triển đề xuất
 
 - [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
-## Project Setup
+## Cài đặt dự án
 
-### Install
+### Cài đặt thư viện
 
 ```bash
 $ npm install
 ```
 
-### Development
+### Chạy ở chế độ phát triển (Development)
 
 ```bash
 $ npm run dev
 ```
 
-### Build
+### Build ứng dụng (Production)
 
 ```bash
-# For windows
+# Cho Windows
 $ npm run build:win
 
-# For macOS
+# Cho macOS
 $ npm run build:mac
 
-# For Linux
+# Cho Linux
 $ npm run build:linux
 ```
