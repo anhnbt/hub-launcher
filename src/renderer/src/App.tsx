@@ -5,10 +5,10 @@ import { ServiceBoard } from './components/ServiceBoard'
 import { ServiceModal } from './components/ServiceModal'
 import { GroupModal } from './components/GroupModal'
 import { SettingsPanel } from './components/SettingsPanel'
-import type { Service } from '../../../shared/types'
+import type { Service } from '../../shared/types'
 import './index.css'
 
-function App(): JSX.Element {
+function App() {
   const settings = useAppStore((s) => s.settings)
   const isLoading = useAppStore((s) => s.isLoading)
   const loadAll = useAppStore((s) => s.loadAll)

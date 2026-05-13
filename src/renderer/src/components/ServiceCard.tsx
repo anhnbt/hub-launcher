@@ -1,4 +1,4 @@
-import type { Service } from '../../../../shared/types'
+import type { Service } from '../../../shared/types'
 import { useAppStore } from '../store/useAppStore'
 import { Pencil, Trash2, ExternalLink, Terminal, Check } from 'lucide-react'
 
@@ -20,7 +20,7 @@ export function ServiceCard({
   manageMode,
   isSelected,
   onToggleSelect
-}: ServiceCardProps): JSX.Element {
+}: ServiceCardProps) {
   const launchService = useAppStore((s) => s.launchService)
 
   const statusColor =

@@ -25,7 +25,7 @@ const LIGHT_BG_PRESETS = [
   { label: 'Sky', value: '#f0f9ff' }
 ]
 
-export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps): JSX.Element | null {
+export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const settings = useAppStore((s) => s.settings)
   const updateSettings = useAppStore((s) => s.updateSettings)
   const [bgImageUrl, setBgImageUrl] = useState('')

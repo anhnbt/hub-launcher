@@ -32,7 +32,7 @@ export function Toolbar({
   onToggleManage,
   selectedCount,
   onDeleteSelected
-}: ToolbarProps): JSX.Element {
+}: ToolbarProps) {
   const settings = useAppStore((s) => s.settings)
   const updateSettings = useAppStore((s) => s.updateSettings)
   const searchRef = useRef<HTMLInputElement>(null)

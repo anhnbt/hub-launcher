@@ -1,7 +1,7 @@
 import { useAppStore } from '../store/useAppStore'
 import { ServiceCard } from './ServiceCard'
 import { Plus, Pencil, Rocket } from 'lucide-react'
-import type { Service } from '../../../../shared/types'
+import type { Service } from '../../../shared/types'
 
 interface ServiceBoardProps {
   onEditService: (service: Service) => void
@@ -23,7 +23,7 @@ export function ServiceBoard({
   selectedIds,
   onToggleSelect,
   onDeleteService
-}: ServiceBoardProps): JSX.Element {
+}: ServiceBoardProps) {
   const groups = useAppStore((s) => s.groups)
   const services = useAppStore((s) => s.services)
   const viewMode = useAppStore((s) => s.settings.viewMode)

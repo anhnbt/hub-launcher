@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAppStore } from '../store/useAppStore'
 import { X, Globe, Terminal as TerminalIcon } from 'lucide-react'
-import type { Service } from '../../../../shared/types'
+import type { Service } from '../../../shared/types'
 
 const EMOJI_SUGGESTIONS = ['⚡', '🌐', '🏦', '💬', '📊', '📋', '🎥', '🚀', '🔧', '📧', '🎯', '🛠️', '📱', '💻', '🗂️', '📝', '🔒', '☁️', '🎨', '📦']
 
@@ -17,7 +17,7 @@ export function ServiceModal({
   onClose,
   editService,
   defaultGroupId
-}: ServiceModalProps): JSX.Element | null {
+}: ServiceModalProps) {
   const groups = useAppStore((s) => s.groups)
   const services = useAppStore((s) => s.services)
   const addService = useAppStore((s) => s.addService)

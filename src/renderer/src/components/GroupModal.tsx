@@ -8,7 +8,7 @@ interface GroupModalProps {
   editGroup?: { id: string; name: string } | null
 }
 
-export function GroupModal({ isOpen, onClose, editGroup }: GroupModalProps): JSX.Element | null {
+export function GroupModal({ isOpen, onClose, editGroup }: GroupModalProps) {
   const addGroup = useAppStore((s) => s.addGroup)
   const updateGroup = useAppStore((s) => s.updateGroup)
   const deleteGroup = useAppStore((s) => s.deleteGroup)
