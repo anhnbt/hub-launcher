@@ -11,6 +11,17 @@ Khi truy cập vào trang [Releases](https://github.com/anhnbt/hub-launcher/rele
 
 > **Lưu ý:** Xin vui lòng **BỎ QUA** các file có đuôi `.blockmap`, `.yml` hoặc `.zip`. Đây là các file hệ thống do ứng dụng tự động sử dụng ngầm ở background để phục vụ cho tính năng Auto-Update (tự động cập nhật phiên bản mới) cực kỳ nhanh chóng.
 
+### Xử lý lỗi bảo mật trên macOS (Gatekeeper)
+
+Vì ứng dụng hiện tại chưa được đăng ký chứng chỉ nhà phát triển của Apple (Apple Developer ID), khi bạn mở ứng dụng lần đầu tiên trên Mac, hệ thống sẽ báo lỗi: *"Apple could not verify “WanBi Hub Launcher” is free of malware..."*
+
+Để mở ứng dụng, bạn chỉ cần làm 1 trong 2 cách sau:
+- **Cách 1:** Thay vì click đúp chuột trái, hãy **Click chuột phải** (hoặc Control-click) vào ứng dụng `WanBi Hub Launcher` -> Chọn **Open (Mở)** -> Một bảng thông báo tương tự hiện lên nhưng lần này sẽ có nút **Open (Mở)** để bạn xác nhận vào ứng dụng.
+- **Cách 2:** Mở Terminal và chạy lệnh sau để loại bỏ cảnh báo:
+  ```bash
+  xattr -cr /Applications/WanBi\ Hub\ Launcher.app
+  ```
+  *(Đảm bảo bạn đã kéo ứng dụng vào thư mục Applications trước khi chạy lệnh)*
 ## Môi trường phát triển đề xuất
 
 - [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
