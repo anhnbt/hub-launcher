@@ -5,6 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import { registerIpcHandlers } from './ipc-handlers'
 import { createTray } from './tray'
 import { startPingService, restartPingService, stopPingService } from './ping-service'
+import { getSettings } from './database'
 import { IPC_CHANNELS } from '../shared/types'
 
 let mainWindow: BrowserWindow | null = null
@@ -32,7 +33,9 @@ function createWindow(): void {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow!.show()
-    mainWindow!.webContents.openDevTools()
+    if (is.dev) {
+      mainWindow!.webContents.openDevTools()
+    }
   })
 
   // Minimize to tray instead of closing
@@ -59,6 +62,7 @@ function createWindow(): void {
 app.commandLine.appendSwitch('remote-debugging-port', '9222')
 
 app.whenReady().then(() => {
+  app.setName('WanBi Hub Launcher')
   electronApp.setAppUserModelId('com.hub-launcher')
 
   app.on('browser-window-created', (_, window) => {
@@ -67,6 +71,13 @@ app.whenReady().then(() => {
 
   // Register IPC handlers
   registerIpcHandlers()
+
+  // Sync login item settings
+  const settings = getSettings()
+  app.setLoginItemSettings({
+    openAtLogin: settings.openAtLogin || false,
+    openAsHidden: true
+  })
 
   // Handle health check restart when settings change
   ipcMain.handle(IPC_CHANNELS.TRIGGER_HEALTH_CHECK, () => {

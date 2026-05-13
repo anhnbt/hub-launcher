@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAppStore } from '../store/useAppStore'
-import { X, Moon, Sun, LayoutGrid, List, FolderUp, Link } from 'lucide-react'
+import { X, Moon, Sun, LayoutGrid, List, FolderUp, Link, Bell, Rocket } from 'lucide-react'
 
 interface SettingsPanelProps {
   isOpen: boolean
@@ -233,6 +233,84 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
             </div>
             <p className="text-xs text-text-muted mt-2">
               Khoảng thời gian ping các dịch vụ đã bật kiểm tra sức khỏe (1–60 phút)
+            </p>
+          </div>
+
+          {/* Open at Login Toggle */}
+          <div>
+            <label className="text-xs font-medium text-text-secondary mb-2.5 block">
+              Khởi động cùng máy tính
+            </label>
+            <div className="flex items-center gap-3">
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={settings.openAtLogin || false}
+                  onChange={(e) => updateSettings({ openAtLogin: e.target.checked })}
+                />
+                <div className="w-11 h-6 bg-surface-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent border border-border"></div>
+              </label>
+              <div className="flex items-center gap-1.5 text-sm text-text-primary">
+                <Rocket className="w-4 h-4 text-accent" />
+                <span>{settings.openAtLogin ? 'Đang bật' : 'Đang tắt'}</span>
+              </div>
+            </div>
+            <p className="text-xs text-text-muted mt-2">
+              Tự động mở WanBi Hub Launcher ngầm khi bạn bật máy
+            </p>
+          </div>
+
+          {/* Notifications Toggle */}
+          <div>
+            <label className="text-xs font-medium text-text-secondary mb-2.5 block">
+              Thông báo
+            </label>
+            <div className="flex items-center gap-3">
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={settings.enableNotifications !== false}
+                  onChange={(e) => updateSettings({ enableNotifications: e.target.checked })}
+                />
+                <div className="w-11 h-6 bg-surface-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent border border-border"></div>
+              </label>
+              <div className="flex items-center gap-1.5 text-sm text-text-primary">
+                <Bell className="w-4 h-4 text-accent" />
+                <span>{settings.enableNotifications !== false ? 'Đang bật' : 'Đang tắt'}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  if ('Notification' in window) {
+                    if (Notification.permission === 'granted') {
+                      new window.Notification('WanBi Hub Launcher', {
+                        body: 'Đây là thông báo thử nghiệm! Bạn đã cấp quyền thành công 🎉'
+                      })
+                    } else {
+                      Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                          new window.Notification('WanBi Hub Launcher', {
+                            body: 'Đây là thông báo thử nghiệm! Bạn đã cấp quyền thành công 🎉'
+                          })
+                        } else {
+                          alert('macOS đang chặn thông báo! Bạn vui lòng vào System Settings > Notifications > Bật cho ứng dụng này nhé.')
+                        }
+                      })
+                    }
+                  } else {
+                    alert('Hệ thống không hỗ trợ thông báo.')
+                  }
+                }}
+                className="ml-auto text-xs px-3 py-1.5 rounded-lg bg-surface-2 text-text-secondary border border-border hover:border-accent hover:text-accent transition-colors"
+                title="Gửi một thông báo thử nghiệm"
+              >
+                Gửi thử
+              </button>
+            </div>
+            <p className="text-xs text-text-muted mt-2">
+              Nhận thông báo khi dịch vụ bị lỗi hoặc kết nối lại thành công
             </p>
           </div>
         </div>

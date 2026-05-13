@@ -134,7 +134,7 @@ export function ServiceBoard({
       {groups.length === 0 && !searchQuery.trim() && (
         <div className="flex flex-col items-center justify-center h-full text-center gap-4">
           <Rocket className="w-16 h-16 text-accent opacity-60" />
-          <h2 className="text-xl font-semibold text-text-primary">Chào mừng đến Hub Launcher</h2>
+          <h2 className="text-xl font-semibold text-text-primary">Chào mừng đến WanBi Hub Launcher</h2>
           <p className="text-text-muted text-sm max-w-sm">
             Tạo một nhóm để sắp xếp các dịch vụ và bắt đầu mở chúng nhanh chóng.
           </p>

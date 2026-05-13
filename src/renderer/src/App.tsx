@@ -27,9 +27,14 @@ function App() {
   const [manageMode, setManageMode] = useState(false)
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
-  // Load data on mount
+  // Load data and request notification permission on mount
   useEffect(() => {
     loadAll()
+    
+    // Request notification permission if it hasn't been granted or denied yet
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission()
+    }
   }, [loadAll])
 
   // Listen for health status updates from main process
