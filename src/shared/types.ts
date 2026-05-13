@@ -64,5 +64,11 @@ export const IPC_CHANNELS = {
   HEALTH_STATUS_UPDATE: 'health:status-update',
 
   // Notifications
-  TEST_NOTIFICATION: 'action:test-notification'
+  TEST_NOTIFICATION: 'action:test-notification',
+
+  // Auto Updater
+  CHECK_FOR_UPDATE: 'updater:check',
+  DOWNLOAD_UPDATE: 'updater:download',
+  QUIT_AND_INSTALL: 'updater:quit-and-install',
+  UPDATE_STATUS: 'updater:status'
 } as const

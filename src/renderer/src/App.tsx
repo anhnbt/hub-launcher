@@ -5,6 +5,7 @@ import { ServiceBoard } from './components/ServiceBoard'
 import { ServiceModal } from './components/ServiceModal'
 import { GroupModal } from './components/GroupModal'
 import { SettingsPanel } from './components/SettingsPanel'
+import { AutoUpdateBanner } from './components/AutoUpdateBanner'
 import type { Service } from '../../shared/types'
 import './index.css'
 
@@ -95,6 +96,7 @@ function App() {
       className={`h-full flex flex-col ${themeClass}`}
       style={bgStyle}
     >
+      <AutoUpdateBanner />
       <Toolbar
         onOpenSettings={() => setShowSettings(true)}
         onAddGroup={() => {

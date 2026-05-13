@@ -43,6 +43,20 @@ const api = {
     return () => {
       ipcRenderer.removeListener(IPC_CHANNELS.HEALTH_STATUS_UPDATE, handler)
     }
+  },
+
+  // Auto Updater
+  checkForUpdate: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.CHECK_FOR_UPDATE),
+  downloadUpdate: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.DOWNLOAD_UPDATE),
+  quitAndInstall: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.QUIT_AND_INSTALL),
+  onUpdateStatus: (callback: (data: { status: string; data?: any }) => void): (() => void) => {
+    const handler = (_: Electron.IpcRendererEvent, data: { status: string; data?: any }): void => {
+      callback(data)
+    }
+    ipcRenderer.on(IPC_CHANNELS.UPDATE_STATUS, handler)
+    return () => {
+      ipcRenderer.removeListener(IPC_CHANNELS.UPDATE_STATUS, handler)
+    }
   }
 }
 

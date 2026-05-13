@@ -5,6 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import { registerIpcHandlers } from './ipc-handlers'
 import { createTray } from './tray'
 import { startPingService, restartPingService, stopPingService } from './ping-service'
+import { setupAutoUpdater } from './auto-updater'
 import { getSettings } from './database'
 import { IPC_CHANNELS } from '../shared/types'
 
@@ -93,6 +94,14 @@ app.whenReady().then(() => {
 
   // Start background health checking
   startPingService()
+
+  // Setup auto-updater
+  if (mainWindow) {
+    setupAutoUpdater(mainWindow)
+  }
+  // Optionally check for updates immediately on startup:
+  // autoUpdater.checkForUpdates() from within setupAutoUpdater or ipc call.
+  // We'll let the frontend trigger it or check once we setup the UI.
 
   app.on('activate', () => {
     if (mainWindow) {

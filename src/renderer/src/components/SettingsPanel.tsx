@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAppStore } from '../store/useAppStore'
-import { X, Moon, Sun, LayoutGrid, List, FolderUp, Link, Bell, Rocket } from 'lucide-react'
+import { X, Moon, Sun, LayoutGrid, List, FolderUp, Link, Bell, Rocket, RefreshCw } from 'lucide-react'
 
 interface SettingsPanelProps {
   isOpen: boolean
@@ -312,6 +312,34 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
             <p className="text-xs text-text-muted mt-2">
               Nhận thông báo khi dịch vụ bị lỗi hoặc kết nối lại thành công
             </p>
+          </div>
+
+          {/* Software Update */}
+          <div>
+            <label className="text-xs font-medium text-text-secondary mb-2.5 block">
+              Cập nhật phần mềm
+            </label>
+            <div className="flex items-center justify-between bg-surface-2 p-3 rounded-xl border border-border">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
+                  <RefreshCw className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-text-primary">WanBi Hub Launcher</div>
+                  <div className="text-xs text-text-muted">Kiểm tra phiên bản mới nhất</div>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  window.api?.checkForUpdate?.()
+                  onClose() // Close settings to see the banner
+                }}
+                className="text-xs px-4 py-2 rounded-lg bg-accent text-white hover:bg-accent-hover transition-colors shadow-sm"
+              >
+                Kiểm tra cập nhật
+              </button>
+            </div>
           </div>
         </div>
 
