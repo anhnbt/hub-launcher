@@ -1,6 +1,6 @@
-# hub-launcher
+# WanBi Hub Launcher
 
-An Electron application with React and TypeScript
+A specialized desktop application built with Electron, React, and TypeScript. It features a modern interface, background service management, startup on login support, and native macOS notifications.
 
 ## Recommended IDE Setup
 
